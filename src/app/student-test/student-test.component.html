@@ -1,0 +1,38 @@
+@if (!started) {
+    <form [formGroup]="studentTestForm" (ngSubmit)="startTest()">
+        <mat-form-field appearance="fill">
+            <mat-label>Введите имя</mat-label>
+            <input matInput formControlName="name" />
+        </mat-form-field>
+        <button mat-raised-button type="submit" [disabled]="!studentTestForm.valid">Начать тест</button>
+    </form>
+}
+@else {
+    @if(started && !finished) {
+        <p>Время: {{ timer }} сек</p>
+        <h2>{{ test.questions[currentQuestion].question }}</h2>
+        
+        <mat-radio-group [value]="answers[currentQuestion]" (change)="selectAnswer($event.value)">
+            @for (option of test.questions[currentQuestion].options; track $index; let i = $index) {
+                <mat-radio-button [value]="i">{{ option }}</mat-radio-button>
+            }
+        </mat-radio-group>
+
+        <div>
+            @if (currentQuestion >= 1) {
+                <button mat-button (click)="back()">⬅️</button>
+            }
+            @if (currentQuestion < test.questions.length - 1) {
+                <button mat-button (click)="next()">➡️</button>
+            }
+            @if (lastQuestion) {
+                <button mat-raised-button color="accent" (click)="submit()">Завершить</button>
+            }
+        </div>
+    }
+    @else {
+        <h2>Тест завершён!</h2>
+        <p>Результат: {{ result }} баллов из {{ test.max_score }}</p>
+        <button mat-raised-button color="primary" (click)="reset()">Пройти снова</button>
+    }
+}

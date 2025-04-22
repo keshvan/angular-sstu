@@ -1,0 +1,60 @@
+<form [formGroup]="testForm" (ngSubmit)="saveTest()">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Тест</mat-label>
+            <input matInput formControlName="testName" />
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Вопрос</mat-label>
+            <input matInput formControlName="question" />
+        </mat-form-field>
+    </div>
+
+    <div formArrayName="options">
+        @for (option of options.controls; track $index; let i = $index) {
+            <div >
+                <mat-form-field appearance="outline">
+                    <mat-label>Вариант {{i + 1}}</mat-label>
+                    <input matInput [formControlName]="i" />
+                </mat-form-field>
+      
+                <mat-radio-button [value]="i" [checked]="testForm.get('correctAnswerIndex')?.value === i" (change)="testForm.get('correctAnswerIndex')?.setValue(i)" />
+    
+                @if (options.length > 2) {
+                    <button mat-icon-button color="warn" (click)="removeOption(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+            }
+            </div>
+        }
+    </div>
+
+    <button mat-button (click)="addOption()">Добавить вариант</button>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Баллы</mat-label>
+        <input matInput type="number" formControlName="points" />
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" (click)="addQuestion()" [disabled]="!testForm.get('question')?.valid || !testForm.get('options')?.valid">Добавить вопрос</button>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!testName?.valid || questions.length <= 0">Сохранить тест</button>
+</form>
+
+<hr />
+
+<div>
+    @for (q of questions; track $index) {
+        <p><strong>{{ q.question }}</strong> ({{ q.points }} баллов)</p>
+        <ul>
+            @for (o of q.options; track $index; let i = $index) {
+                <li>
+                    {{ o }} @if (i === q.correctAnswerIndex) {<span>✅</span>}
+                </li>
+            }
+        </ul>
+    }
+</div>
