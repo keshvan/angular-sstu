@@ -1,4 +1,4 @@
-<form [formGroup]="testForm" (ngSubmit)="saveTest()">
+<form [formGroup]="testForm" (ngSubmit)="saveTest()" class="test-form">
     <div>
         <mat-form-field appearance="fill">
             <mat-label>Тест</mat-label>
@@ -6,14 +6,14 @@
         </mat-form-field>
     </div>
 
-    <div>
+    <div class="question-section">
         <mat-form-field appearance="outline">
             <mat-label>Вопрос</mat-label>
             <input matInput formControlName="question" />
         </mat-form-field>
     </div>
 
-    <div formArrayName="options">
+    <div formArrayName="options" class="options-list">
         @for (option of options.controls; track $index; let i = $index) {
             <div >
                 <mat-form-field appearance="outline">
@@ -46,7 +46,7 @@
 
 <hr />
 
-<div>
+<div class="question-list">
     @for (q of questions; track $index) {
         <p><strong>{{ q.question }}</strong> ({{ q.points }} баллов)</p>
         <ul>

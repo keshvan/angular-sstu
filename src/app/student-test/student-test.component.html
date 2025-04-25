@@ -10,29 +10,34 @@
 @else {
     @if(started && !finished) {
         <p>Время: {{ timer }} сек</p>
-        <h2>{{ test.questions[currentQuestion].question }}</h2>
         
-        <mat-radio-group [value]="answers[currentQuestion]" (change)="selectAnswer($event.value)">
-            @for (option of test.questions[currentQuestion].options; track $index; let i = $index) {
-                <mat-radio-button [value]="i">{{ option }}</mat-radio-button>
-            }
-        </mat-radio-group>
 
-        <div>
-            @if (currentQuestion >= 1) {
-                <button mat-button (click)="back()">⬅️</button>
-            }
-            @if (currentQuestion < test.questions.length - 1) {
-                <button mat-button (click)="next()">➡️</button>
-            }
-            @if (lastQuestion) {
-                <button mat-raised-button color="accent" (click)="submit()">Завершить</button>
-            }
+        <div class="question-block">
+            <h2 class="question-text">{{ test.questions[currentQuestion].question }}</h2>
+            <mat-radio-group class="option-group" [value]="answers[currentQuestion]" (change)="selectAnswer($event.value)">
+                @for (option of test.questions[currentQuestion].options; track $index; let i = $index) {
+                    <mat-radio-button class="option" [value]="i">{{ option }}</mat-radio-button>
+                }
+            </mat-radio-group>
+    
+            <div>
+                @if (currentQuestion >= 1) {
+                    <button mat-button (click)="back()">⬅️</button>
+                }
+                @if (currentQuestion < test.questions.length - 1) {
+                    <button mat-button (click)="next()">➡️</button>
+                }
+                @if (lastQuestion) {
+                    <button mat-raised-button color="accent" (click)="submit()">Завершить</button>
+                }
+            </div>
         </div>
     }
     @else {
-        <h2>Тест завершён!</h2>
-        <p>Результат: {{ result }} баллов из {{ test.max_score }}</p>
-        <button mat-raised-button color="primary" (click)="reset()">Пройти снова</button>
+        <div class="result-block">
+            <h2>Тест завершён!</h2>
+            <p class="score">Результат: {{ result }} баллов из {{ test.max_score }}</p>
+            <button mat-raised-button color="primary" (click)="reset()">Пройти снова</button>
+        </div>
     }
 }

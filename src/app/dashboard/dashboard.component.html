@@ -1,6 +1,6 @@
 <h2>Результаты студентов</h2>
 
-<mat-form-field appearance="fill" style="width: 300px; margin-bottom: 20px;">
+<mat-form-field appearance="fill" class="filter-field">
   <mat-label>Выберите тест</mat-label>
   <mat-select [value]="selectedTestName" (selectionChange)="filterByTest()">
     <mat-option [value]="''">Все тесты</mat-option>
@@ -10,7 +10,7 @@
   </mat-select>
 </mat-form-field>
 
-<table mat-table [dataSource]="filteredAttempts" class="mat-elevation-z8" style="width: 100%">
+<table mat-table [dataSource]="filteredAttempts" class="mat-elevation-z8 results-table">
   <ng-container matColumnDef="student_name">
     <th mat-header-cell *matHeaderCellDef> Имя студента </th>
     <td mat-cell *matCellDef="let attempt"> {{ attempt.student_name }} </td>
